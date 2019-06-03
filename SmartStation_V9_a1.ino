@@ -44,6 +44,10 @@
    V17 - IR REMOTE COMMAND (LG TV)
    V18 - IR REMOTE COMMAND (Panasonic DVD)
    V19 - IR REMOTE Auto On/Off Sequence (Panasonic DVD)
+   V36 - Air Quality Color (EXT)
+   V37 - Air Quality Description (EXT)
+   V38 - HUMIDITY (EXT)
+   V39 - PM1 (EXT)
    V40 - PM2.5 (EXT)
    V41 - PM10 (EXT)
    V42 - POISONING LEVEL (EXT)
@@ -972,6 +976,11 @@ BLYNK_WRITE(V10) { //terminal
 		terminal.println("C");
 	}
 
+  else if (String("update") == param.asStr()) {
+    terminal.println("Updating...");
+    UpdateValues();
+  }
+
 	else if (String("reboot") == param.asStr()) {
 		terminal.println("System is rebooting NOW...");
 		ESP.restart();
@@ -1365,6 +1374,7 @@ BLYNK_CONNECTED() {
 		bootCounter = true;
 	}
 	else {
+    UpdateValues();
 		fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
 		FastLED.show();
 		ScreenManager(0);
